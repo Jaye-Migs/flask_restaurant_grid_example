@@ -3,60 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Restaurant Grid</title>
-    <!--<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">-->
+    <title>Restaurants</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<style>
-    * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-.grid-container__filters {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-.grid-item {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #fff;
-    text-align: center;
-    transition: box-shadow 0.3s ease;
-}
-    @media (min-width: 768px) {
-    .grid-item {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 1024px) {
-    .grid-item {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 767px) {
-    .grid-item {
-        grid-template-columns: 1fr;
-    }
-}
-
-    </style>
 <body>
-    <div class="grid-container">
-        {% for restaurant in restaurants %}
-            <div class="grid-item">
-                <h3>{{ restaurant.restaurant_name }}</h3>
-                <p>Location: {{ restaurant.location }}</p>
-                <p>Status: {{ restaurant.status }}</p>
-                {% if restaurant.image_url %}
-                    <img src="{{ restaurant.image_url }}" alt="{{ restaurant.restaurant_name }}">
-                {% endif %}
-            </div>
-        {% endfor %}
+    <div class="restaurant-list">
+        <div class="restaurant-list__grid">
+            {% for restaurant in restaurants %}
+                <div class="restaurant-card-container">
+                    <div class="restaurant-card">
+                        <div class="restaurant-card__image">
+                            {% if restaurant.image_url %}
+                                <img src="{{ restaurant.image_url }}" alt="{{ restaurant.restaurant_name }}">
+                            {% endif %}
+                        </div>
+                        <div class="restaurant-card__info">
+                            <h3 class="restaurant-card__name">{{ restaurant.restaurant_name }}</h3>
+                            <p class="restaurant-card__location">Location: {{ restaurant.location }}</p>
+                            <p class="restaurant-card__status {% if restaurant.status == 'Open' %}restaurant-card__status--open{% else %}restaurant-card__status--closed{% endif %}">
+                                {{ restaurant.status }}
+                            </p>
+                            <button class="restaurant-card__button">View</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </body>
 </html>
